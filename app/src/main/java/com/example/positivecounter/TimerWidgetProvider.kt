@@ -36,5 +36,5 @@ class TimerWidgetProvider : AppWidgetProvider() {
             } finally { pending.finish() }
         }
     }
-    private fun format(total: Long): String { val d = total / 86400; val h = (total % 86400) / 3600; val m = (total % 3600) / 60; val s = total % 60; return "%d天 %02d:%02d:%02d".format(d,h,m,s) }
+    private fun format(total: Long): String { val d = total / 86400; val h = total / 3600; val m = (total % 3600) / 60; val s = total % 60; return if (d > 0) "%d小时 %02d:%02d".format(h,m,s) else "%02d:%02d:%02d".format(h,m,s) }
 }
