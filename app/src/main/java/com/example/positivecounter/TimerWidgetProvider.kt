@@ -6,6 +6,7 @@ import android.content.Context
 import android.widget.RemoteViews
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.first
+import kotlinx.serialization.json.Json
 import java.time.Duration
 import java.time.Instant
 
@@ -15,7 +16,9 @@ class TimerWidgetProvider : AppWidgetProvider() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val prefs = context.timerStore.data.first()
-                val name = prefs[NAME]; val start = prefs[START]
+                val timers = prefs[TIMERS_JSON]?.let { runCatching { Json.decodeFromString<List<StoredTimer>>(it) }.getOrDefault(emptyList()) } ?: listOfNotNull(prefs[LEGACY_NAME]?.let { n -> prefs[LEGACY_START]?.let { s -> StoredTimer("legacy", n, s) } })
+                val timer = timers.firstOrNull()
+                val name = timer?.name; val start = timer?.startEpochMillis
                 ids.forEach { id ->
                     val views = RemoteViews(context.packageName, R.layout.timer_widget)
                     if (name != null && start != null) {

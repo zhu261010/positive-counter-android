@@ -1,6 +1,6 @@
 # 正计时 Android App
 
-当前版本：**0.1.1**
+当前版本：**0.1.2**
 
 根据 `.doc/PRD.md` 实现的离线单计时器 Android 应用，使用 Kotlin、Jetpack Compose、Material 3 和 Preferences DataStore。
 
